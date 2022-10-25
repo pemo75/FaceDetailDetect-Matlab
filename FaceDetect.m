@@ -1,0 +1,33 @@
+close all;
+clear all;
+clc;
+[file,path]=uigetfile('*.*','Select an image');
+loc=strcat(path,file);
+pic=imread(loc);
+imgray=rgb2gray(pic);
+%% Face Detection 
+detectorFace=vision.CascadeObjectDetector('MergeThreshold',10);
+boundingbox1=step(detectorFace,imgray);
+detpicn1=insertObjectAnnotation(pic,'Rectangle',boundingbox1,'Face'); 
+imshow(detpicn1);
+pause(1);
+detectorMouth=vision.CascadeObjectDetector('Mouth','MergeThreshold',80);
+boundingbox2=step(detectorMouth,imgray);
+detpicn2=insertObjectAnnotation(detpicn1,'Rectangle',boundingbox2,'Mouth'); 
+imshow(detpicn2);
+pause(1);
+detectorEyeR=vision.CascadeObjectDetector('RightEye','MergeThreshold',120);
+boundingbox3=step(detectorEyeR,imgray);
+detpicn3=insertObjectAnnotation(detpicn2,'Rectangle',boundingbox3,'Right Eye'); 
+imshow(detpicn3);
+pause(1);
+detectorEyeL=vision.CascadeObjectDetector('LeftEye','MergeThreshold',120);
+boundingbox4=step(detectorEyeL,imgray);
+detpicn4=insertObjectAnnotation(detpicn3,'Rectangle',boundingbox4,'Left Eye'); 
+imshow(detpicn4);
+pause(1);
+detectorNose=vision.CascadeObjectDetector('Nose','MergeThreshold',50);
+boundingbox5=step(detectorNose,imgray);
+detpicn5=insertObjectAnnotation(detpicn4,'Rectangle',boundingbox5,'Nose'); 
+imshow(detpicn5);
+
